@@ -39,7 +39,7 @@ $iduser = $identity["id"]
                         <td><?= h($sheet->created) ?></td>
                         <td><?= h($sheet->modified) ?></td>
                         <td class="actions">
-                            <?= $this->Html->link(__('View'), ['action' => 'view', $sheet->id]) ?>
+                            <?= $this->Html->link(__('View'), ['controller' => 'Sheets', 'action' => 'clientview', $sheet->id]) ?>
                             <?php if($sheet->state->id === 1): ?>
                                 <?= $this->Html->link(__('Edit'), ['action' => 'edit', $sheet->id]) ?>
                             <?php endif; ?>

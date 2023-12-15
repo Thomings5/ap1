@@ -30,7 +30,7 @@
                     <td><?= h($sheet->created) ?></td>
                     <td><?= h($sheet->modified) ?></td>
                     <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $sheet->id]) ?>
+                        <?= $this->Html->link(__('Voir'), ['controller' => 'Sheets', 'action' => 'clientview', $sheet->id]) ?>
                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $sheet->id]) ?>
                         <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $sheet->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sheet->id)]) ?>
                     </td>

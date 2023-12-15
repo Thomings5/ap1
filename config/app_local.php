@@ -45,7 +45,7 @@ return [
             //'port' => 'non_standard_port_number',
 
             'username' => 'root',
-            'password' => 'ROOT',
+            'password' => '',
 
             'database' => 'gsb-cake',
             /*

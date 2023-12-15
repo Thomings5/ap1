@@ -21,7 +21,7 @@
                     echo $this->Form->control('price');
                     echo $this->Form->control('title');
                     echo $this->Form->control('body');
-                    echo $this->Form->control('sheets._ids', ['options' => $sheets]);
+                    //echo $this->Form->control('sheets._ids', ['options' => $sheets]);
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>

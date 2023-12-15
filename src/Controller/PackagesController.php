@@ -1,8 +1,10 @@
 <?php
 declare(strict_types=1);
-
+ 
+ 
+ 
 namespace App\Controller;
-
+ 
 /**
  * Packages Controller
  *
@@ -19,10 +21,10 @@ class PackagesController extends AppController
     public function index()
     {
         $packages = $this->paginate($this->Packages);
-
+ 
         $this->set(compact('packages'));
     }
-
+ 
     /**
      * View method
      *
@@ -35,10 +37,10 @@ class PackagesController extends AppController
         $package = $this->Packages->get($id, [
             'contain' => ['Sheets'],
         ]);
-
+ 
         $this->set(compact('package'));
     }
-
+ 
     /**
      * Add method
      *
@@ -51,7 +53,7 @@ class PackagesController extends AppController
             $package = $this->Packages->patchEntity($package, $this->request->getData());
             if ($this->Packages->save($package)) {
                 $this->Flash->success(__('The package has been saved.'));
-
+ 
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The package could not be saved. Please, try again.'));
@@ -59,7 +61,7 @@ class PackagesController extends AppController
         $sheets = $this->Packages->Sheets->find('list', ['limit' => 200])->all();
         $this->set(compact('package', 'sheets'));
     }
-
+ 
     /**
      * Edit method
      *
@@ -76,7 +78,7 @@ class PackagesController extends AppController
             $package = $this->Packages->patchEntity($package, $this->request->getData());
             if ($this->Packages->save($package)) {
                 $this->Flash->success(__('The package has been saved.'));
-
+ 
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The package could not be saved. Please, try again.'));
@@ -84,7 +86,7 @@ class PackagesController extends AppController
         $sheets = $this->Packages->Sheets->find('list', ['limit' => 200])->all();
         $this->set(compact('package', 'sheets'));
     }
-
+ 
     /**
      * Delete method
      *
@@ -101,7 +103,7 @@ class PackagesController extends AppController
         } else {
             $this->Flash->error(__('The package could not be deleted. Please, try again.'));
         }
-
+ 
         return $this->redirect(['action' => 'index']);
     }
 }

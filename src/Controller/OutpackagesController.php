@@ -52,7 +52,14 @@ class OutpackagesController extends AppController
             if ($this->Outpackages->save($outpackage)) {
                 $this->Flash->success(__('The outpackage has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                $id = $this->request->getParam('pass')[0];
+ 
+// Redirigez vers la nouvelle URL en utilisant cet id
+        return $this->redirect([
+            'controller' => 'Sheets',
+            'action' => 'clientview',
+             $id
+            ]);
             }
             $this->Flash->error(__('The outpackage could not be saved. Please, try again.'));
         }
@@ -104,4 +111,24 @@ class OutpackagesController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+    public function addoutpackage()
+{
+    $outpackage = $this->Outpackages->newEmptyEntity();
+    try {
+        if ($this->request->is('post')) {
+            $outpackage = $this->Outpackages->patchEntity($outpackage, $this->request->getData());
+            if ($this->Outpackages->save($outpackage)) {
+                $this->Flash->success(__('The outpackage has been saved.'));
+                return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error(__('The outpackage could not be saved. Please, try again.'));
+            }
+        }
+    } catch (\Exception $e) {
+        $this->Flash->error(__('Error: {0}', $e->getMessage()));
+    }
+    $sheets = $this->Outpackages->Sheets->find('list', ['limit' => 200])->all();
+    $this->set(compact('outpackage', 'sheets'));
+}
+
 }

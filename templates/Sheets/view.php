@@ -43,26 +43,42 @@
                     <td><?= $sheet->sheetvalidated ? __('Yes') : __('No'); ?></td>
                 </tr>
             </table>
+            
             <div class="related">
                 <h4><?= __('Related Outpackages') ?></h4>
+                <?= $this->Html->link(__('New Outpackage'), ['controller' => 'outpackages' ,'action' => 'add'], ['class' => 'button float-right']) ?>
                 <?php if (!empty($sheet->outpackages)) : ?>
                 <div class="table-responsive">
                     <table>
                         <tr>
                             <th><?= __('Id') ?></th>
-                            <th><?= __('Date') ?></th>
                             <th><?= __('Price') ?></th>
                             <th><?= __('Title') ?></th>
                             <th><?= __('Body') ?></th>
+                            <th><?= __('Quantity') ?></th>
+                            <th><?= __('Total') ?></th>
+                            
                             <th class="actions"><?= __('Actions') ?></th>
                         </tr>
                         <?php foreach ($sheet->outpackages as $outpackages) : ?>
                         <tr>
                             <td><?= h($outpackages->id) ?></td>
-                            <td><?= h($outpackages->date) ?></td>
                             <td><?= h($outpackages->price) ?></td>
                             <td><?= h($outpackages->title) ?></td>
                             <td><?= h($outpackages->body) ?></td>
+                            <td>
+                                <?= $this->Form->create(null, ['url' => ['controller' => 'Outpackages', 'action' => 'create', $outpackages->id]]) ?>
+                                <?= $this->Form->hidden("outpackages.{$outpackages->id}.id", ['value' => $outpackages->_joinData->id]) ?>
+                                <?= $this->Form->control("outpackages.{$outpackages->id}.quantity", ['type' => 'text', 'label' => false, 'value' => isset($outpackages->_joinData->quantity) ? $outpackages->_joinData->quantity :0]) ?>
+                            </td>
+                            <td>
+                            <?php $quantityoutpackages = $outpackages->_joinData->quantity;
+                                 $priceoutpackages = $outpackages->price;
+                                 $totaloutpackages=$quantityoutpackages*$priceoutpackages;?>
+                                <?php echo ($totaloutpackages); ?>
+                            </td>
+                            
+                           
                             <td class="actions">
                                 <?= $this->Html->link(__('View'), ['controller' => 'Outpackages', 'action' => 'view', $outpackages->id]) ?>
                                 <?= $this->Html->link(__('Edit'), ['controller' => 'Outpackages', 'action' => 'edit', $outpackages->id]) ?>
@@ -76,6 +92,7 @@
             </div>
             <div class="related">
                 <h4><?= __('Related Packages') ?></h4>
+                <?= $this->Html->link(__('New Package'), ['controller' => 'Packages', 'action' => 'add'], ['class' => 'button float-right']) ?>
                 <?php if (!empty($sheet->packages)) : ?>
                 <div class="table-responsive">
                     <table>
@@ -84,14 +101,30 @@
                             <th><?= __('Price') ?></th>
                             <th><?= __('Title') ?></th>
                             <th><?= __('Body') ?></th>
+                            <th><?= __('Quantity') ?></th>
+                            <th><?= __('Total') ?></th>
                             <th class="actions"><?= __('Actions') ?></th>
                         </tr>
                         <?php foreach ($sheet->packages as $packages) : ?>
+
                         <tr>
+                            
                             <td><?= h($packages->id) ?></td>
                             <td><?= h($packages->price) ?></td>
                             <td><?= h($packages->title) ?></td>
                             <td><?= h($packages->body) ?></td>
+                            <td>
+                                <?= $this->Form->create(null, ['url' => ['controller' => 'Packages', 'action' => 'create', $packages->id]]) ?>
+                                <?= $this->Form->hidden("packages.{$packages->id}.id", ['value' => $packages->_joinData->id]) ?>
+                                <?= $this->Form->control("packages.{$packages->id}.quantity", ['type' => 'text', 'label' => false, 'value' => isset($packages->_joinData->quantity) ? $packages->_joinData->quantity :0]) ?>
+                            </td>
+                            <td>
+                            <?php $quantitypackages = $packages->_joinData->quantity;
+                                 $pricepackages = $packages->price;
+                                 $totalpackages=$quantitypackages*$pricepackages;?>
+                                <?php echo ($totalpackages); ?>
+                            </td>
+
                             <td class="actions">
                                 <?= $this->Html->link(__('View'), ['controller' => 'Packages', 'action' => 'view', $packages->id]) ?>
                                 <?= $this->Html->link(__('Edit'), ['controller' => 'Packages', 'action' => 'edit', $packages->id]) ?>
