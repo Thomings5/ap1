@@ -106,6 +106,14 @@ return [
             'controller' => '*',
             'action' => '*',
         ],
+        [
+            'role' => 'comptable',
+            'prefix' => '*',
+            'extension' => '*',
+            'plugin' => '*',
+            'controller' => 'Sheets',
+            'action' => '*',
+        ],
         //specific actions allowed for the all roles in Users plugin
         [
             'role' => '*',
