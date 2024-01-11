@@ -107,7 +107,7 @@ return [
             'action' => '*',
         ],
         [
-            'role' => 'comptable',
+            'role' => 'comptables',
             'prefix' => '*',
             'extension' => '*',
             'plugin' => '*',
