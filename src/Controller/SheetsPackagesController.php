@@ -175,5 +175,4 @@ class SheetsController extends AppController
         return $this->redirect(['action' => 'index']); // Redirect to the appropriate action
     }
 }
-
 }

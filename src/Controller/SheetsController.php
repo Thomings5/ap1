@@ -122,7 +122,7 @@ class SheetsController extends AppController
             if ($this->Sheets->save($sheet)) {
                 $this->Flash->success(__('The sheet has been saved.'));
  
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'comptablelist']);
             }
             $this->Flash->error(__('The sheet could not be saved. Please, try again.'));
         }
@@ -211,6 +211,67 @@ public function clientview($id = null)
  
     $this->set(compact('sheet'));
 }
+public function comptableview($id = null)
+{
+   
+    $sheet = $this->Sheets->get($id, [
+        'contain' => ['Users', 'States', 'Outpackages', 'Packages'],
+    ]);
  
+    if ($this->request->is('post')) {
+        $postData = $this->request->getData();
  
+        if (isset($postData['packages'])) {
+            foreach ($postData['packages'] as $packageId => $packageData) {
+                // Vérifie que la quantité est définie
+                if (isset($packageData['quantity'])) {
+                    $quantity = $packageData['quantity'];
+ 
+                    // Met à jour la table d'association SheetsPackages
+                    $this->Sheets->Packages->SheetsPackages->updateAll(
+                        ['quantity' => $quantity],
+                        ['sheet_id' => $id, 'package_id' => $packageId]
+                    );
+                   
+                }
+            }
+            $this->Flash->success(__('La quantité a été mise à jour.'));
+            return $this->redirect(['action' => 'clientview', $id]);
+        }
+    }
+ 
+    $this->set(compact('sheet'));
+}
+public function comptablelist()
+{
+   
+    $this->paginate = [
+        'contain' => ['Users', 'States'],
+    ];
+
+   
+    $sheets = $this->paginate($this->Sheets->find('all'));
+
+    $this->set(compact('sheets'));
+}
+public function editadmin($id = null)
+{
+    $sheet = $this->Sheets->get($id, [
+        'contain' => ['Outpackages', 'Packages'],
+    ]);
+    if ($this->request->is(['patch', 'post', 'put'])) {
+        $sheet = $this->Sheets->patchEntity($sheet, $this->request->getData());
+        if ($this->Sheets->save($sheet)) {
+            $this->Flash->success(__('The sheet has been saved.'));
+
+            return $this->redirect(['action' => 'list']);
+        }
+        $this->Flash->error(__('The sheet could not be saved. Please, try again.'));
+    }
+    $users = $this->Sheets->Users->find('list', ['limit' => 200])->all();
+    $states = $this->Sheets->States->find('list', ['limit' => 200])->all();
+    $outpackages = $this->Sheets->Outpackages->find('list', ['limit' => 200])->all();
+    $packages = $this->Sheets->Packages->find('list', ['limit' => 200])->all();
+    $this->set(compact('sheet', 'users', 'states', 'outpackages', 'packages'));
+}
 }

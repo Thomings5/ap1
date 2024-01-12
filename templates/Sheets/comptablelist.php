@@ -34,15 +34,12 @@ $iduser = $identity["id"]
                 <?php foreach ($sheets as $sheet): ?>
                     <tr>
                         <td><?= $this->Number->format($sheet->id) ?></td>
-                        <td><?= $sheet->has('state') ? $this->Html->link($sheet->state->state, ['controller' => 'States', 'action' => 'view', $sheet->state->id]) : '' ?></td>
+                        <td><?= $sheet->has('state') ? $this->Html->link($sheet->state->state, ['controller' => 'Sheets', 'action' => 'edit', $sheet->id]) : '' ?></td>
                         <td><?= h($sheet->sheetvalidated) ?></td>
                         <td><?= h($sheet->created) ?></td>
                         <td><?= h($sheet->modified) ?></td>
                         <td class="actions">
-                            <?= $this->Html->link(__('View'), ['controller' => 'Sheets', 'action' => 'clientview', $sheet->id]) ?>
-                            <?php if($sheet->state->id === 1): ?>
-                                <?= $this->Html->link(__('Edit'), ['action' => 'editadmin', $sheet->id]) ?>
-                            <?php endif; ?>
+                            <?= $this->Html->link(__('View'), ['controller' => 'Sheets', 'action' => 'comptableview', $sheet->id]) ?>
                             <!-- $this->Form->postLink(__('Delete'), ['action' => 'delete', $sheet->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sheet->id)]) -->
                         </td>
                     </tr>

@@ -111,7 +111,7 @@ return [
             'prefix' => '*',
             'extension' => '*',
             'plugin' => '*',
-            'controller' => 'Sheets',
+            'controller' => ['Sheets','States',],
             'action' => '*',
         ],
         //specific actions allowed for the all roles in Users plugin
