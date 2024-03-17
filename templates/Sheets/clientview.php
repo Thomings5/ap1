@@ -6,38 +6,35 @@
 
 use App\Model\Entity\Outpackage;
 
+// Obtenir l'identité de l'utilisateur connecté s'il existe
  $identity = $this->getRequest()->getAttribute('identity');
 $identity = $identity ?? [];
 $iduser = $identity["id"];
 
+// Initialisation des totaux
 $total = 0;
 $total_package = 0;
 $total_outpackage = 0;
 ?>
 <div class="row">
     <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?php if ($sheet->state->id == 1 && !$sheet->sheetvalidated): ?>
-                <?= $this->Form->postLink(__('Delete Sheet'), ['action' => 'delete', $sheet->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sheet->id), 'class' => 'side-nav-item']) ?>
-            <?php endif; ?>
-            <?= $this->Html->link(__('List Sheets'), ['action' => 'list'], ['class' => 'side-nav-item']) ?>
-        </div>
     </aside>
     <div class="column-responsive column-80">
         <div class="sheets view content">
+            <!-- Affichage des détails de la fiche -->
             <h3><?= h($sheet->id) ?></h3>
             <table>
+                <!-- Affichage des informations de l'utilisateur -->
                 <tr>
-                    <th><?= __('Last name') ?></th>
+                    <th><?= __('Nom de famille') ?></th>
                     <td><?= $sheet->user->last_name ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('First name') ?></th>
+                    <th><?= __('Prénom') ?></th>
                     <td><?= $sheet->user->first_name ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('State') ?></th>
+                    <th><?= __('Etat') ?></th>
                     <td><?= $sheet->state->state ?></td>
                 </tr>
                 <tr>
@@ -45,35 +42,40 @@ $total_outpackage = 0;
                     <td><?= $this->Number->format($sheet->id) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Created') ?></th>
+                    <th><?= __('Créé') ?></th>
                     <td><?= h($sheet->created) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Modified') ?></th>
+                    <th><?= __('Modifié') ?></th>
                     <td><?= h($sheet->modified) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Sheetvalidated') ?></th>
-                    <td><?= $sheet->sheetvalidated ? __('Yes') : __('No'); ?></td>
+                    <th><?= __('Fiche validée') ?></th>
+                    <td><?= $sheet->sheetvalidated ? __('Oui') : __('Non'); ?></td>
                 </tr>
             </table>
+
+             <!-- Section des forfaits associés à la fiche -->
             
             <div class="related">
                 <h4 class="float-left"><?= __('Listes des Forfaits') ?></h4>
                 <?= $this->Form->create($sheet, ['url' => ['controller' => 'Sheets', 'action' => 'clientview', $sheet->id]]) ?>
+                <!-- Affichage des forfaits -->
                 <?php if (!empty($sheet->packages)) : ?>
                     <div class="table-responsive">
                         <table>
                             <tr>
                                 <th><?= __('Id') ?></th>
-                                <th><?= __('Quantity') ?></th>
-                                <th><?= __('Price') ?></th>
-                                <th><?= __('Title') ?></th>
-                                <th><?= __('Body') ?></th>
+                                <th><?= __('Quantité') ?></th>
+                                <th><?= __('Prix') ?></th>
+                                <th><?= __('Titre') ?></th>
+                                <th><?= __('Message') ?></th>
                             </tr>
+                            <!-- Boucle sur les forfaits -->
                             <?php foreach ($sheet->packages as $package) : ?>
                                 <tr>
                                     <td><?= h($package->id) ?></td>
+                                    <!-- Affichage de la quantité -->
                                     <?php if ($sheet->state->id == 1 && !$sheet->sheetvalidated): ?>
                                         
                                         <td>
@@ -83,6 +85,7 @@ $total_outpackage = 0;
                                     <?php else: ?>
                                         <td><?php echo $package->_joinData->quantity ?></td>
                                     <?php endif; ?>
+                                     <!-- Affichage du prix -->
                                     <td><?= h($package->price) ?> €</td>
                                     <td><?= h($package->title) ?></td>
                                     <!-- Limiter la taille du champ body à 100 caractères -->
@@ -90,6 +93,7 @@ $total_outpackage = 0;
                                         <?= h(substr($package->body, 0, 100)) ?> ...
                                     </td>
                                     <?php if ($sheet->state->id == 1 && !$sheet->sheetvalidated): ?>
+                                          <!-- Suppression du forfait (visible uniquement si la fiche n'est pas validée) -->
         
                                         <td style="display: none">
                                             <?= $this->Form->postLink(__('None')) ?>
@@ -101,6 +105,7 @@ $total_outpackage = 0;
                             <?php endforeach; ?>
                         </table>
                     </div>
+                    <!-- Affichage du bouton de sauvegarde des forfaits  pour tout simplement les calucer-->
                     <div style="margin-top: 1rem;">
                         <?php if ($sheet->state->id == 1 && !$sheet->sheetvalidated): ?>
                             <td>
@@ -108,6 +113,7 @@ $total_outpackage = 0;
                                 <?= $this->Form->button('Sauvegarder', ['type' => 'submit']) ?>
                             </td> 
                         <?php endif; ?>
+                        <!-- Affichage du total des forfaits -->
                         <?= '<strong style="margin-left: 1rem">Total forfaits : </strong>'.$total_package." €" ?>
                     </div>
                 <?php endif; ?>
@@ -115,29 +121,34 @@ $total_outpackage = 0;
 
                         <!-- Calcul du total -->
                 
+
+                        <!-- Section des hors forfaits -->
             </div>
             <div class="related">
                 <h4 class="float-left"><?= __('Listes des Hors Forfaits') ?></h4>
+                <!-- Affichage du bouton pour ajouter un nouvel hors forfait -->
                 <?php if($sheet->state->id == 1): ?>
                     <?php if($sheet->sheetvalidated == false): ?>
-                        <?= $this->Html->link(__('New Outpackage'), ['action' => 'add', 'controller' => 'Outpackages',$sheet->id], ['class' => 'button float-right']) ?>
+                        <?= $this->Html->link(__('Nouveau hors forfait'), ['action' => 'add', 'controller' => 'Outpackages',$sheet->id], ['class' => 'button float-right']) ?>
                     <?php endif; ?>
                 <?php endif; ?>
+                <!-- Affichage des hors forfaits -->
                 <?php if (!empty($sheet->outpackages)) : ?>
                 <div class="table-responsive">
                     <table>
                         <tr>
                             <th><?= __('Id') ?></th>
                             <th><?= __('Date') ?></th>
-                            <th><?= __('Price') ?></th>
-                            <th><?= __('Title') ?></th>
-                            <th><?= __('Body') ?></th>
+                            <th><?= __('Prix') ?></th>
+                            <th><?= __('Titre') ?></th>
+                            <th><?= __('Message') ?></th>
                             <?php if($sheet->state->id == 1): ?>
                                 <?php if($sheet->sheetvalidated == false): ?>
                                     <th class="actions"><?= __('Actions') ?></th>
                                 <?php endif; ?>
                             <?php endif; ?>
                         </tr>
+                        <!-- Boucle sur les hors forfaits -->
                         <?php foreach ($sheet->outpackages as $outpackages) : ?>
                         <tr>
                             <td><?= h($outpackages->id) ?></td>
@@ -148,10 +159,11 @@ $total_outpackage = 0;
                             <td title="<?= h($outpackages->body) ?>">
                                 <?= h(substr($outpackages->body, 0, 100)) ?> ...
                             </td>
+                            <!-- Affichage des actions (suppression) -->
                             <?php if($sheet->state->id == 1): ?>
                                 <?php if($sheet->sheetvalidated == false): ?>
                                     <td class="actions">
-                                        <?= $this->Form->postLink(__('Delete'), ['controller' => 'Outpackages', 'action' => 'delete', $outpackages->id, $sheet->id], ['confirm' => __('Are you sure you want to delete # {0}?', $outpackages->id)]) ?>
+                                        <?= $this->Form->postLink(__('Supprimer'), ['controller' => 'Outpackages', 'action' => 'delete', $outpackages->id, $sheet->id], ['confirm' => __('Etes-vous sur de vouloir supprimer cet hors forfait? # {0}?', $outpackages->id)]) ?>
                                     </td>
                                 <?php endif; ?>
                             <?php endif; ?>
@@ -161,6 +173,7 @@ $total_outpackage = 0;
                     </table>
                 </div>
                 <?php endif; ?>
+                <!-- Affichage du total des hors forfaits et du total général -->
                 <?= '<div style="margin-top: 1rem"><strong>Total hors forfaits : </strong>'.$total_outpackage." €</div>" ?>
                 <?= '</br><strong>Total : </strong>'.$total = $total_outpackage + $total_package." €" ?>
             </div>

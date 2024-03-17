@@ -5,34 +5,36 @@
  */
 ?>
 <div class="sheets index content">
-    <?= $this->Html->link(__('New Sheet'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Sheets') ?></h3>
+    <?= $this->Html->link(__('Nouvelle Fiche'), ['action' => 'add'], ['class' => 'button float-right']) ?>
+    <h3><?= __('Fiches') ?></h3>
     <div class="table-responsive">
         <table>
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('user_id') ?></th>
-                    <th><?= $this->Paginator->sort('state_id') ?></th>
-                    <th><?= $this->Paginator->sort('sheetvalidated') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
+                    <th><?= $this->Paginator->sort('Utilisateur') ?></th>
+                    <th><?= $this->Paginator->sort('Etat') ?></th>
+                    <th><?= $this->Paginator->sort('Fiche Validée') ?></th>
+                    <th><?= $this->Paginator->sort('Date de création') ?></th>
+                    <th><?= $this->Paginator->sort('Date de modification') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($sheets as $sheet): ?>
                 <tr>
+                <!-- ID de la fiche et mes autres états.. -->
                     <td><?= $this->Number->format($sheet->id) ?></td>
                     <td><?= $sheet->has('user') ? $this->Html->link($sheet->user->username, ['controller' => 'Users', 'action' => 'view', $sheet->user->id]) : '' ?></td>
                     <td><?= $sheet->has('state') ? $this->Html->link($sheet->state->state, ['controller' => 'States', 'action' => 'view', $sheet->state->id]) : '' ?></td>
                     <td><?= h($sheet->sheetvalidated) ?></td>
                     <td><?= h($sheet->created) ?></td>
                     <td><?= h($sheet->modified) ?></td>
+                    <!-- Actions possibles sur la fiche -->
                     <td class="actions">
-                        <?= $this->Html->link(__('Voir'), ['controller' => 'Sheets', 'action' => 'clientview', $sheet->id]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $sheet->id]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $sheet->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sheet->id)]) ?>
+                        <?= $this->Html->link(__('Voir'), ['controller' => 'Sheets', 'action' => 'adminview', $sheet->id]) ?>
+                        <?= $this->Html->link(__('Modifier'), ['action' => 'editadmin', $sheet->id]) ?>
+                        <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $sheet->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sheet->id)]) ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -47,6 +49,6 @@
             <?= $this->Paginator->next(__('next') . ' >') ?>
             <?= $this->Paginator->last(__('last') . ' >>') ?>
         </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
+        <p><?= $this->Paginator->counter(__('Page {{page}} sur {{pages}}, Montrant {{current}} Enregistré(e)(s) sur un total de {{count}}')) ?></p>
     </div>
 </div>

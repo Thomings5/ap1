@@ -12,9 +12,9 @@
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('date') ?></th>
-                    <th><?= $this->Paginator->sort('price') ?></th>
-                    <th><?= $this->Paginator->sort('title') ?></th>
+                    <th><?= $this->Paginator->sort('date', 'Date') ?></th>
+                    <th><?= $this->Paginator->sort('price', 'Prix') ?></th>
+                    <th><?= $this->Paginator->sort('title', 'Titre') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
@@ -26,9 +26,9 @@
                     <td><?= $this->Number->format($outpackage->price) ?></td>
                     <td><?= h($outpackage->title) ?></td>
                     <td class="actions">
-                        <?= $this->Html->link(__('View'), ['action' => 'view', $outpackage->id]) ?>
-                        <?= $this->Html->link(__('Edit'), ['action' => 'edit', $outpackage->id]) ?>
-                        <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $outpackage->id], ['confirm' => __('Are you sure you want to delete # {0}?', $outpackage->id)]) ?>
+                        <?= $this->Html->link(__('Voir'), ['action' => 'view', $outpackage->id]) ?>
+                        <?= $this->Html->link(__('Editer'), ['action' => 'edit', $outpackage->id]) ?>
+                        <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $outpackage->id], ['confirm' => __('Etes-vous sur de vouloir supprimercette ligne # {0}?', $outpackage->id)]) ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -37,12 +37,12 @@
     </div>
     <div class="paginator">
         <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
+            <?= $this->Paginator->first('<< ' . __('Premier')) ?>
+            <?= $this->Paginator->prev('< ' . __('Précédent')) ?>
             <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
+            <?= $this->Paginator->next(__('Prochain') . ' >') ?>
+            <?= $this->Paginator->last(__('Dernier') . ' >>') ?>
         </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
+        <p><?= $this->Paginator->counter(__('Page {{page}} de {{pages}}, montrant {{current}} enregistré(e)(s) sur un total de {{count}} ')) ?></p>
     </div>
 </div>

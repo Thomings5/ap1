@@ -15,18 +15,18 @@ $iduser = $identity["id"]
 
 ?>
 <div class="sheets index content">
-    <?= $this->Html->link(__('New Sheet'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Sheets') ?></h3>
+    <?= $this->Html->link(__('Nouvelle fiche'), ['controller' => 'Sheets','action' => 'addsheet'], ['class' => 'button float-right']) ?>
+    <h3><?= __('Fiches') ?></h3>
     <div class="table-responsive">
         <table>
             <?= $identity['username'] ?>
             <thead>
                 <tr>
                     <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('state_id') ?></th>
-                    <th><?= $this->Paginator->sort('sheetvalidated') ?></th>
-                    <th><?= $this->Paginator->sort('created') ?></th>
-                    <th><?= $this->Paginator->sort('modified') ?></th>
+                    <th><?= $this->Paginator->sort('Etat') ?></th>
+                    <th><?= $this->Paginator->sort('Fiche validée') ?></th>
+                    <th><?= $this->Paginator->sort('Date de création') ?></th>
+                    <th><?= $this->Paginator->sort('Date de modification') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
             </thead>
@@ -39,11 +39,11 @@ $iduser = $identity["id"]
                         <td><?= h($sheet->created) ?></td>
                         <td><?= h($sheet->modified) ?></td>
                         <td class="actions">
-                            <?= $this->Html->link(__('View'), ['controller' => 'Sheets', 'action' => 'clientview', $sheet->id]) ?>
-                            <?php if($sheet->state->id === 1): ?>
-                                <?= $this->Html->link(__('Edit'), ['action' => 'editadmin', $sheet->id]) ?>
-                            <?php endif; ?>
-                            <!-- $this->Form->postLink(__('Delete'), ['action' => 'delete', $sheet->id], ['confirm' => __('Are you sure you want to delete # {0}?', $sheet->id)]) -->
+                            <?php if ($sheet->state->id === 1): ?>
+                            <?= $this->Html->link(__('Modifier'), ['controller' => 'Sheets', 'action' => 'clientview', $sheet->id]) ?>
+                        <?php else: ?>
+                            <?= $this->Html->link(__('Voir'), ['controller' => 'Sheets', 'action' => 'clientview', $sheet->id]) ?>
+                        <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -52,12 +52,12 @@ $iduser = $identity["id"]
     </div>
     <div class="paginator">
         <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
+            <?= $this->Paginator->first('<< ' . __('Premier')) ?>
+            <?= $this->Paginator->prev('< ' . __('Précédent')) ?>
             <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
+            <?= $this->Paginator->next(__('Suivant') . ' >') ?>
+            <?= $this->Paginator->last(__('Dernier') . ' >>') ?>
         </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
+        <p><?= $this->Paginator->counter(__('Page {{page}} sur {{pages}}, Montrant {{current}} Enregistré(e)(s) sur un total de {{count}}')) ?></p>
     </div>
 </div>

@@ -12,7 +12,7 @@
             <?= $this->Form->postLink(
                 __('Delete'),
                 ['action' => 'delete', $outpackage->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $outpackage->id), 'class' => 'side-nav-item']
+                ['confirm' => __('Etes-vous sur de vouloir supprimer la ligne ? # {0}?', $outpackage->id), 'class' => 'side-nav-item']
             ) ?>
             <?= $this->Html->link(__('List Outpackages'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
         </div>

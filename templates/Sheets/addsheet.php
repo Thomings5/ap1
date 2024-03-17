@@ -1,11 +1,3 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Sheet $sheet
- * @var \Cake\Collection\CollectionInterface|string[] $users
- * @var \Cake\Collection\CollectionInterface|string[] $states
- */
-?>
 <div class="row">
     <aside class="column">
         <div class="side-nav">
@@ -18,11 +10,9 @@
             <?= $this->Form->create($sheet) ?>
             <fieldset>
                 <legend><?= __('Ajouter une fiche') ?></legend>
-                <?php
-                    echo $this->Form->control('user_id', ['label' => 'Utilisateur', 'options' => $users, 'empty' => true]);
-                    echo $this->Form->control('state_id', ['label' => 'État', 'options' => $states]);
-                    echo $this->Form->control('sheetvalidated', ['label' => 'Fiche validée']);
-                ?>
+                <?= $this->Form->hidden('user_id', ['value' => $iduser]) ?>
+                <?= $this->Form->hidden('state_id', ['label' => 'État', 'options' => $states, 'value'=>1]) ?>
+                <?= $this->Form->hidden('sheetvalidated', ['label' => 'Fiche validée', 'value'=>0]) ?>
             </fieldset>
             <?= $this->Form->button(__('Envoyer')) ?>
             <?= $this->Form->end() ?>

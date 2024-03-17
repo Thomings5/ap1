@@ -52,7 +52,6 @@ $roleuser_name = $identity["role"];
             echo $this->Html->Link('Home', ['plugin' => NULL, 'controller' => 'Pages', 'action' => 'home']);
             if(isset($roleuser_name) && !empty($roleuser_name)){
                 if($roleuser == true){
-                    echo $this->Html->Link('Mes fiches', ['plugin' => NULL, 'controller' => 'Sheets', 'action' => 'list']);
                     echo $this->Html->Link('Page Admin', ['plugin' => NULL, 'controller' => 'Pages', 'action' => 'adminpanel']);
                     echo $this->Html->Link('Profile', ['plugin' => 'CakeDC/Users','controller' => 'Users', 'action' => 'profile']);
                     echo $this->Html->Link('Déconnexion' , ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'logout'], ['onclick' => "return confirm('Etes-vous sûr de vouloir vous déconnecter ?')"]);
@@ -60,8 +59,7 @@ $roleuser_name = $identity["role"];
                     if($roleuser_name == "comptable"){
                         echo $this->Html->Link('Fiches Comptable', ['plugin' => NULL, 'controller' => 'Sheets', 'action' => 'comptablelist']);
                     }else{
-                        echo $this->Html->Link('Mes Fiches', ['plugin' => NULL, 'controller' => 'Sheets', 'action' => 'list']);
-                        echo $this->Html->Link('Frais forfait', ['plugin' => NULL, 'controller' => 'Packages', 'action' => 'index']);
+                        echo $this->Html->Link('Mes Fiches', ['plugin' => NULL, 'controller' => 'Sheets', 'action' => 'list']);      
                     }
                     echo $this->Html->Link('Mon compte', ['plugin' => 'CakeDC/Users','controller' => 'Users', 'action' => 'profile']);
                     echo $this->Html->Link('Déconnexion' , ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'logout'], ['onclick' => "return confirm('Etes-vous sûr de vouloir vous déconnecter ?')"]);

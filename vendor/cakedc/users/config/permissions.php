@@ -129,9 +129,9 @@ return [
         ],
         //all roles allowed to Pages/display
         [
-            'role' => '*',
+            'role' => 'user',
             'controller' => 'Pages',
-            'action' => 'display',
+            'action' => ['sheets','logout','profile','packages'],
         ],
         [
             'role' => '*',

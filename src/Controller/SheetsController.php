@@ -73,10 +73,9 @@ class SheetsController extends AppController
                 $this->Sheets->SheetsPackages->save($sheetPackage);
             }
 
-            return $this->redirect(['action' => 'list']);
             return $this->redirect(['action' => 'index']);
         } else {
-            $this->Flash->error(__('The sheet could not be saved. Please, try again.'));
+            $this->Flash->error(__("La fiche n'a pas pu être enregistrée. Veuillez réessayer."));
         }
     }
  
@@ -120,11 +119,11 @@ class SheetsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $sheet = $this->Sheets->patchEntity($sheet, $this->request->getData());
             if ($this->Sheets->save($sheet)) {
-                $this->Flash->success(__('The sheet has been saved.'));
+                $this->Flash->success(__('La fiche a été sauvegardée'));
  
                 return $this->redirect(['action' => 'comptablelist']);
             }
-            $this->Flash->error(__('The sheet could not be saved. Please, try again.'));
+            $this->Flash->error(__("La fiche n'a pas pu être sauvegardée. Merci de rééssayer."));
         }
         $users = $this->Sheets->Users->find('list', ['limit' => 200])->all();
         $states = $this->Sheets->States->find('list', ['limit' => 200])->all();
@@ -145,9 +144,9 @@ class SheetsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $sheet = $this->Sheets->get($id);
         if ($this->Sheets->delete($sheet)) {
-            $this->Flash->success(__('The sheet has been deleted.'));
+            $this->Flash->success(__('La fiche a été supprimée'));
         } else {
-            $this->Flash->error(__('The sheet could not be deleted. Please, try again.'));
+            $this->Flash->error(__("La fiche n'a pas pu être supprimée. Veuillez réessayer."));
         }
  
         return $this->redirect(['action' => 'index']);
@@ -236,7 +235,7 @@ public function comptableview($id = null)
                 }
             }
             $this->Flash->success(__('La quantité a été mise à jour.'));
-            return $this->redirect(['action' => 'clientview', $id]);
+            return $this->redirect(['action' => 'comptableview', $id]);
         }
     }
  
@@ -264,14 +263,85 @@ public function editadmin($id = null)
         if ($this->Sheets->save($sheet)) {
             $this->Flash->success(__('The sheet has been saved.'));
 
-            return $this->redirect(['action' => 'list']);
+            return $this->redirect(['action' => 'index']);
         }
-        $this->Flash->error(__('The sheet could not be saved. Please, try again.'));
+        $this->Flash->error(__("La fiche n'a pas été sauvegardée. Veuillez réessayer."));
     }
     $users = $this->Sheets->Users->find('list', ['limit' => 200])->all();
     $states = $this->Sheets->States->find('list', ['limit' => 200])->all();
     $outpackages = $this->Sheets->Outpackages->find('list', ['limit' => 200])->all();
     $packages = $this->Sheets->Packages->find('list', ['limit' => 200])->all();
     $this->set(compact('sheet', 'users', 'states', 'outpackages', 'packages'));
+}
+public function adminview($id = null)
+{
+   
+    $sheet = $this->Sheets->get($id, [
+        'contain' => ['Users', 'States', 'Outpackages', 'Packages'],
+    ]);
+ 
+    if ($this->request->is('post')) {
+        $postData = $this->request->getData();
+ 
+        if (isset($postData['packages'])) {
+            foreach ($postData['packages'] as $packageId => $packageData) {
+                // Vérifie que la quantité est définie
+                if (isset($packageData['quantity'])) {
+                    $quantity = $packageData['quantity'];
+ 
+                    // Met à jour la table d'association SheetsPackages
+                    $this->Sheets->Packages->SheetsPackages->updateAll(
+                        ['quantity' => $quantity],
+                        ['sheet_id' => $id, 'package_id' => $packageId]
+                    );
+                   
+                }
+            }
+            $this->Flash->success(__('La quantité a été mise à jour.'));
+            return $this->redirect(['action' => 'adminview', $id]);
+        }
+    }
+ 
+    $this->set(compact('sheet'));
+}
+public function addsheet() {
+    $identity = $this->getRequest()->getAttribute('identity');
+    $identity = $identity ?? [];
+    $iduser = $identity['id'];
+
+    // Autres actions pour gérer la création de la fiche...
+    $sheet = $this->Sheets->newEmptyEntity();
+ 
+    if ($this->request->is('post')) {
+        $sheet = $this->Sheets->patchEntity($sheet, $this->request->getData());
+ 
+        if ($this->Sheets->save($sheet)) {
+            // Récupérez l'id de la nouvelle feuille
+            $sheetId = $sheet->id;
+            $this->Flash->success(__('The sheet has been saved.'));
+
+            // Initialise la table sheets_packages avec une quantité de 0 pour chaque package
+            $packages = $this->Sheets->Packages->find()->toArray();
+ 
+            foreach ($packages as $package) {
+                $sheetPackage = $this->Sheets->SheetsPackages->newEntity([
+                    'sheet_id' => $sheet->id,
+                    'package_id' => $package->id,
+                    'quantity' => 0,
+                ]);
+
+                $this->Sheets->SheetsPackages->save($sheetPackage);
+            }
+
+            return $this->redirect(['action' => 'list']);
+        } else {
+            $this->Flash->error(__("La fiche n'a pas pu être enregistrée. Veuillez réessayer."));
+        }
+    }
+    $users = $this->Sheets->Users->find('list', ['limit' => 200])->all();
+    $states = $this->Sheets->States->find('list', ['limit' => 200])->all();
+    $outpackages = $this->Sheets->Outpackages->find('list', ['limit' => 200])->all();
+    $packages = $this->Sheets->Packages->find('list', ['limit' => 200])->all();
+    $this->set(compact('sheet', 'users', 'states', 'outpackages', 'packages', 'iduser'));
 }
 }

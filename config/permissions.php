@@ -79,6 +79,7 @@ return [
                 'u2fRegisterFinish',
                 'u2fAuthenticate',
                 'u2fAuthenticateFinish',
+                // Actions pour l'authentification WebAuthn 2FA
                 'webauthn2fa',
                 'webauthn2faRegister',
                 'webauthn2faRegisterOptions',
@@ -106,14 +107,7 @@ return [
             'controller' => '*',
             'action' => '*',
         ],
-        [
-            'role' => 'comptable',
-            'prefix' => '*',
-            'extension' => '*',
-            'plugin' => '*',
-            'controller' => ['Sheets','States',],
-            'action' => '*',
-        ],
+        
         //specific actions allowed for the all roles in Users plugin
         [
             'role' => '*',
@@ -121,6 +115,7 @@ return [
             'controller' => 'Users',
             'action' => ['profile', 'logout', 'linkSocial', 'callbackLinkSocial'],
         ],
+         // Autorisations spécifiques pour certains contrôleurs et actions
         [
             'role' => '*',
             'plugin' => 'CakeDC/Users',
@@ -135,18 +130,37 @@ return [
                 return false;
             }
         ],
-        //all roles allowed to Pages/display
+        // Autorisations spécifiques pour le contrôleur Pages
         [
             'role' => '*',
             'controller' => 'Pages',
             'action' => 'display',
         ],
+        // Autorisations spécifiques pour le plugin DebugKit
         [
             'role' => '*',
             'plugin' => 'DebugKit',
             'controller' => '*',
             'action' => '*',
             'bypassAuth' => true,
+        ],
+        // Autorisations pour le rôle 'Comptable
+        [
+            'role' => 'comptable',
+            'prefix' => '*',
+            'extension' => '*',
+            'plugin' => '*',
+            'controller' => ['Sheets','States',],
+            'action' => '*',
+        ],
+        // Autorisations pour le rôle 'user
+        [
+            'role' => 'user',
+            'prefix' => '*',
+            'extension' => '*',
+            'plugin' => '*',
+            'controller' => ['Sheets','Outpackages'],
+            'action' => ['clientview','list','add','edit','addsheet'],
         ],
     ]
 ];

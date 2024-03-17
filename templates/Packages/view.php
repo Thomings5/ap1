@@ -6,20 +6,13 @@
 ?>
 <div class="row">
     <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Html->link(__('Edit Package'), ['action' => 'edit', $package->id], ['class' => 'side-nav-item']) ?>
-            <?= $this->Form->postLink(__('Delete Package'), ['action' => 'delete', $package->id], ['confirm' => __('Are you sure you want to delete # {0}?', $package->id), 'class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('List Packages'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('New Package'), ['action' => 'add'], ['class' => 'side-nav-item']) ?>
-        </div>
     </aside>
     <div class="column-responsive column-80">
         <div class="packages view content">
             <h3><?= h($package->title) ?></h3>
             <table>
                 <tr>
-                    <th><?= __('Title') ?></th>
+                    <th><?= __('Titre') ?></th>
                     <td><?= h($package->title) ?></td>
                 </tr>
                 <tr>
@@ -27,12 +20,12 @@
                     <td><?= $this->Number->format($package->id) ?></td>
                 </tr>
                 <tr>
-                    <th><?= __('Price') ?></th>
+                    <th><?= __('Prix') ?></th>
                     <td><?= $this->Number->format($package->price) ?></td>
                 </tr>
             </table>
             <div class="text">
-                <strong><?= __('Body') ?></strong>
+                <strong><?= __('Message') ?></strong>
                 <blockquote>
                     <?= $this->Text->autoParagraph(h($package->body)); ?>
                 </blockquote>

@@ -1,2 +1,4 @@
-<?= $this->Html->link('Lists sheets', ['plugin' => NULL,'controller' => 'Sheets', 'action' => 'index'], ['class' => 'button','style'=> 'width:100%']) ?>
-<?= $this->Html->link('Lists users', ['plugin' => 'CakeDC/Users','controller' => 'Users', 'action' => 'index'], ['class' => 'button','style'=> 'width:100%']) ?>
+<?= $this->Html->link('Liste des fiches', ['plugin' => NULL,'controller' => 'Sheets', 'action' => 'index'], ['class' => 'button','style'=> 'width:100%']) ?>
+<?= $this->Html->link('Liste des utilisateurs', ['plugin' => 'CakeDC/Users','controller' => 'Users', 'action' => 'index'], ['class' => 'button','style'=> 'width:100%']) ?>
+<?= $this->Html->Link('Frais forfait', ['plugin' => NULL, 'controller' => 'Packages', 'action' => 'index'],['class' => 'button','style'=> 'width:100%']);?>
+<?= $this->Html->Link('Frais hors forfait', ['plugin' => NULL, 'controller' => 'Outpackages', 'action' => 'index'],['class' => 'button','style'=> 'width:100%']);?>
