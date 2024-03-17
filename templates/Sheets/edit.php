@@ -19,8 +19,8 @@
             <fieldset>
                 <legend><?= __('Valider la fiche ?') ?></legend>
                 <?php
-                    echo $this->Form->control('state_id', ['options' => $states]);
-                    echo $this->Form->control('sheetvalidated');
+                    echo $this->Form->control('state_id', ['label' => 'Etat','options' => $states]);
+                    echo $this->Form->control('sheetvalidated', ['label' => 'Fiche validée']);
                 ?>
             </fieldset>
             <?= $this->Form->button(__('Envoyer')) ?>
