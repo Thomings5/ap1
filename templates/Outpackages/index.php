@@ -5,8 +5,8 @@
  */
 ?>
 <div class="outpackages index content">
-    <?= $this->Html->link(__('New Outpackage'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Outpackages') ?></h3>
+    <?= $this->Html->link(__('Nouveau hors forfait'), ['action' => 'add'], ['class' => 'button float-right']) ?>
+    <h3><?= __('Hors forfait') ?></h3>
     <div class="table-responsive">
         <table>
             <thead>
